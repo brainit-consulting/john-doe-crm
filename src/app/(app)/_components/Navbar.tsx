@@ -1,0 +1,19 @@
+import Link from "next/link";
+import { SignOutButton } from "./SignOutButton";
+
+export function Navbar({ userName }: { userName: string }) {
+  return (
+    <header className="border-b border-neutral-200 dark:border-neutral-800">
+      <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-3">
+        <nav className="flex items-center gap-4 text-sm">
+          <Link href="/dashboard" className="font-semibold">AgenticBuilder</Link>
+          <Link href="/notes" className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">Notes</Link>
+        </nav>
+        <div className="flex items-center gap-3 text-sm">
+          <span className="text-neutral-600 dark:text-neutral-400">{userName}</span>
+          <SignOutButton />
+        </div>
+      </div>
+    </header>
+  );
+}
