@@ -10,6 +10,7 @@ describe("env schema", () => {
       OWNER_EMAIL: "owner@example.com",
       RESEND_API_KEY: "re_test_key",
       EMAIL_FROM: "no-reply@example.com",
+      AI_GATEWAY_API_KEY: "vck_test_key_padding_padding_padding",
     });
     expect(result.DATABASE_URL).toBe("postgres://u:p@h/d");
     expect(result.OWNER_EMAIL).toBe("owner@example.com");

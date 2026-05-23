@@ -9,6 +9,9 @@ const envSchema = z.object({
   OWNER_EMAIL: z.string().email("OWNER_EMAIL must be a valid email"),
   RESEND_API_KEY: z.string().startsWith("re_", "RESEND_API_KEY must start with re_"),
   EMAIL_FROM: z.string().email("EMAIL_FROM must be a valid email address"),
+  AI_GATEWAY_API_KEY: z
+    .string()
+    .startsWith("vck_", "AI_GATEWAY_API_KEY must start with vck_"),
 });
 
 export type Env = z.infer<typeof envSchema>;
