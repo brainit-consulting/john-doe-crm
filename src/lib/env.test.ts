@@ -8,6 +8,8 @@ describe("env schema", () => {
       BETTER_AUTH_SECRET: "x".repeat(32),
       BETTER_AUTH_URL: "http://localhost:3000",
       OWNER_EMAIL: "owner@example.com",
+      RESEND_API_KEY: "re_test_key",
+      EMAIL_FROM: "no-reply@example.com",
     });
     expect(result.DATABASE_URL).toBe("postgres://u:p@h/d");
     expect(result.OWNER_EMAIL).toBe("owner@example.com");

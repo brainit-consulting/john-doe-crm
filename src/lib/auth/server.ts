@@ -16,6 +16,22 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
     minPasswordLength: 8,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      const { passwordResetEmail } = await import("@/lib/email/templates/password-reset");
+      const { sendEmail } = await import("@/lib/email/send");
+      const { subject, html, text } = passwordResetEmail({ name: user.name, url });
+      await sendEmail({ to: user.email, subject, html, text });
+    },
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      const { verifyEmail } = await import("@/lib/email/templates/verify");
+      const { sendEmail } = await import("@/lib/email/send");
+      const { subject, html, text } = verifyEmail({ name: user.name, url });
+      await sendEmail({ to: user.email, subject, html, text });
+    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
