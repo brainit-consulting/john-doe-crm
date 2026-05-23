@@ -1,6 +1,4 @@
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth/server";
+import { requireSession } from "@/lib/auth/roles";
 import { Navbar } from "./_components/Navbar";
 
 export default async function AppLayout({
@@ -8,10 +6,7 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) {
-    redirect("/login");
-  }
+  const session = await requireSession();
   return (
     <>
       <Navbar userName={session.user.name} />

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth/server";
+import { requireSession } from "@/lib/auth/roles";
 import { getNoteForUser } from "@/lib/db/queries";
 import { NoteForm } from "../_components/NoteForm";
 import { DeleteButton } from "../_components/DeleteButton";
@@ -12,8 +11,8 @@ export default async function NoteDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const session = await auth.api.getSession({ headers: await headers() });
-  const note = await getNoteForUser(id, session!.user.id);
+  const session = await requireSession();
+  const note = await getNoteForUser(id, session.user.id);
   if (!note) {
     notFound();
   }

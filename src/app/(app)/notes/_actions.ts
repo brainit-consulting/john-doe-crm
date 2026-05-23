@@ -1,10 +1,9 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { nanoid } from "nanoid";
-import { auth } from "@/lib/auth/server";
+import { requireSession } from "@/lib/auth/roles";
 import {
   createNote,
   updateNoteForUser,
@@ -17,10 +16,7 @@ export type NoteActionResult =
   | { ok: false; error: string };
 
 async function requireUserId(): Promise<string> {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) {
-    redirect("/login");
-  }
+  const session = await requireSession();
   return session.user.id;
 }
 

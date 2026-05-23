@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth/server";
+import { requireSession } from "@/lib/auth/roles";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default async function DashboardPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  // Layout already redirects when null; this assertion is just for the types.
-  const userName = session?.user.name ?? "there";
+  const session = await requireSession();
+  const userName = session.user.name;
 
   return (
     <div className="space-y-6">
