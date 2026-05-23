@@ -48,7 +48,7 @@ Adds a `role` column to the `user` table (`'user' | 'admin'`, default `'user'`),
       baseURL: env.BETTER_AUTH_URL,
    +  user: {
    +    additionalFields: {
-   +      role: { type: "string", required: true, defaultValue: "user" },
+   +      role: { type: "string", required: false, defaultValue: "user", input: false },
    +    },
    +  },
       emailAndPassword: {
@@ -67,7 +67,7 @@ Adds a `role` column to the `user` table (`'user' | 'admin'`, default `'user'`),
    +          if (data.email === env.OWNER_EMAIL) {
    +            return { data: { ...data, role: "admin" } };
    +          }
-   +          return { data };
+   +          return { data: { ...data, role: "user" } };
    +        },
    +      },
    +    },
@@ -177,6 +177,15 @@ Adds a `role` column to the `user` table (`'user' | 'admin'`, default `'user'`),
 2. Sign up with `OWNER_EMAIL` → confirm `user.role = 'admin'`.
 3. From a `requireRole("admin")`-gated route as a non-admin → redirected to `/dashboard`. (Demo: the admin-scaffold module exercises this; without it, you can manually add a test route.)
 4. `npm run typecheck && npm run lint && npm test && npm run build` all pass.
+
+## Known limitations
+
+- **Session staleness on role change.** Because Better-Auth caches the
+  session for `session.updateAge` (default 1 day), a user whose role is
+  changed via the admin UI will continue to see their old role until
+  their next sign-in. If immediate revocation matters, call
+  `auth.api.revokeSessions({ userId })` after the role mutation (the
+  `admin-scaffold` module documents this where applicable).
 
 ## Uninstall
 

@@ -9,7 +9,7 @@ export const auth = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
   user: {
     additionalFields: {
-      role: { type: "string", required: true, defaultValue: "user" },
+      role: { type: "string", required: false, defaultValue: "user", input: false },
     },
   },
   emailAndPassword: {
@@ -28,7 +28,7 @@ export const auth = betterAuth({
           if (data.email === env.OWNER_EMAIL) {
             return { data: { ...data, role: "admin" } };
           }
-          return { data };
+          return { data: { ...data, role: "user" } };
         },
       },
     },

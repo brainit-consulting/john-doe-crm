@@ -46,8 +46,8 @@ export function effectiveRole(session: AppSession): Role {
 
 export async function requireRole(role: Role): Promise<AppSession> {
   const s = await requireSession();
-  if (effectiveRole(s) !== role && effectiveRole(s) !== "admin") {
-    redirect("/dashboard");
-  }
+  const r = effectiveRole(s);
+  // Admin is a superset of every role; non-admins must match exactly.
+  if (r !== "admin" && r !== role) redirect("/dashboard");
   return s;
 }
