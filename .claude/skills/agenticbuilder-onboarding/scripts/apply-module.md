@@ -9,8 +9,9 @@ overall flow — do NOT silently skip a step.
 
 ## 1. Resolve
 
-Confirm `modules/<name>/README.md` exists and contains H2 sections in
-this exact order:
+Confirm `modules/<name>/README.md` exists. Parse its H2 sections and
+verify that AT LEAST these six required sections exist, in the order
+shown:
 
 - `## What this gives you`
 - `## Prerequisites`
@@ -19,7 +20,12 @@ this exact order:
 - `## Verify`
 - `## Uninstall`
 
-If any section is missing or out of order, halt with:
+Additional H2 sections between or after them (e.g.,
+`## Known limitations`, `## Troubleshooting`, `## Security notes`) are
+allowed; the install routine uses only the six required sections.
+
+If any of the six required sections is missing, or they don't appear
+in the order above, halt with:
 > "module <name> README malformed — see modules/README.md for the
 > required structure."
 

@@ -30,8 +30,11 @@ modules/<name>/
 
 ## Required README structure
 
-Every module's `README.md` MUST contain these H2 sections in this order so
-the onboarding skill can parse it deterministically:
+Every module's `README.md` MUST contain these six H2 sections in this
+order so the onboarding skill can parse it deterministically.
+**Additional H2 sections** (e.g., `## Known limitations`,
+`## Troubleshooting`, `## Security notes`) **are allowed** between or
+after them — the install routine uses only the six required ones.
 
 ```markdown
 # <Module Name>
@@ -60,6 +63,8 @@ the onboarding skill can parse it deterministically:
 
 ## Uninstall
 <reverse steps, listed explicitly>
+
+<!-- Optional extra sections (e.g. ## Known limitations) may follow -->
 ```
 
 ## The seven modules

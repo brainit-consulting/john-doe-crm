@@ -86,7 +86,21 @@ to halt with "no source documented for KEY — see env-key-sources.md".
 - Example: `"YourApp <noreply@yourdomain.com>"`.
 
 ## vitest
-No env keys.
+
+### DATABASE_URL_TEST
+- Required for: `npm run test:integration` and the CI integration job.
+- URL: https://console.neon.tech → your project → Branches → click
+  "New branch", name it `test`, parent = `main` → copy the **pooled**
+  connection string.
+- Look for: a string starting with `postgres://` and ending with
+  `?sslmode=require` — must be a separate branch from `DATABASE_URL`
+  so tests can't trash production data.
+- Notes: the branch is REUSED across CI runs; integration tests must
+  clean up via transactional rollback (`withRolledBackTx` from
+  `src/test/db.ts` does this).
+- **Not needed for local unit tests** (`npm run test:unit`). Only
+  needed for `npm run test:integration` or the CI `integration` /
+  `e2e` jobs.
 
 ## role-gates
 No env keys. (Uses `OWNER_EMAIL` from the trunk.)
