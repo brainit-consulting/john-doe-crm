@@ -1,4 +1,4 @@
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, count } from "drizzle-orm";
 import { db } from "./client";
 import {
   attachment,
@@ -8,6 +8,7 @@ import {
   type Note,
   type User,
 } from "./schema";
+import type { Role } from "@/lib/auth/roles";
 
 export async function getUserById(id: string): Promise<User | undefined> {
   const rows = await db.select().from(user).where(eq(user.id, id)).limit(1);
@@ -101,4 +102,42 @@ export async function deleteAttachmentForUser(
     .where(and(eq(attachment.id, attachmentId), eq(attachment.userId, userId)))
     .returning();
   return row;
+}
+
+// ──────────────────────────────────────────────────────────────────
+// admin-scaffold — user-management helpers
+// ──────────────────────────────────────────────────────────────────
+
+export async function listUsers(
+  page: number,
+  pageSize = 20,
+): Promise<User[]> {
+  const safePage = Math.max(1, Math.floor(page));
+  const offset = (safePage - 1) * pageSize;
+  return db
+    .select()
+    .from(user)
+    .orderBy(desc(user.createdAt))
+    .limit(pageSize)
+    .offset(offset);
+}
+
+export async function getUserCount(): Promise<number> {
+  const [row] = await db.select({ value: count() }).from(user);
+  return Number(row?.value ?? 0);
+}
+
+export async function setUserRole(
+  userId: string,
+  role: Role,
+): Promise<void> {
+  // Defensive: the type already constrains to "user" | "admin", but refuse
+  // anything else at runtime in case this is called from untyped JS.
+  if (role !== "user" && role !== "admin") {
+    throw new Error(`Invalid role: ${String(role)}`);
+  }
+  await db
+    .update(user)
+    .set({ role, updatedAt: new Date() })
+    .where(eq(user.id, userId));
 }
