@@ -12,7 +12,7 @@ export interface ButtonProps
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "bg-neutral-900 text-white hover:bg-neutral-800 focus-visible:outline-neutral-900 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200",
+    "bg-brand text-white hover:bg-brand-hover focus-visible:outline-brand dark:bg-brand dark:text-white dark:hover:bg-brand-hover",
   secondary:
     "bg-neutral-100 text-neutral-900 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700",
   ghost:

@@ -7,6 +7,19 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg" }),
   secret: env.BETTER_AUTH_SECRET,
   baseURL: env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    env.BETTER_AUTH_URL,
+    ...(process.env.NODE_ENV === "development"
+      ? [
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "http://localhost:3002",
+          "http://localhost:3003",
+          "http://localhost:3004",
+          "http://localhost:3005",
+        ]
+      : []),
+  ],
   user: {
     additionalFields: {
       role: { type: "string", required: false, defaultValue: "user", input: false },

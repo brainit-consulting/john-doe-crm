@@ -27,7 +27,7 @@ real verification email on signup and a real password-reset link from the
 | Key | Required | Where to get it | Example |
 |---|---|---|---|
 | `RESEND_API_KEY` | yes | Resend Dashboard → API Keys (must start with `re_`) | `re_AbCd1234…` |
-| `EMAIL_FROM` | yes | A from-address on a domain verified in your Resend account | `no-reply@yourdomain.com` |
+| `EMAIL_FROM` | yes | A from-address on a domain verified in your Resend account | `support@yourdomain.com` |
 
 ## Install
 

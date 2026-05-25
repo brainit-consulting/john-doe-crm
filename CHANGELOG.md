@@ -1,5 +1,40 @@
 # CHANGELOG
 
+## v0.4.0 — 2026-05-25
+
+### Brand refresh (template default)
+
+Warm cream + Patrick Hand + orange — matches theblackpot.dreamforgeworld.com,
+the brand family. This is now the DEFAULT look of every clone of this template.
+Users override globals.css + button.tsx variants if they want different.
+
+- `next/font/google`: Patrick Hand (display) + Inter (sans), via CSS variables
+- `globals.css`: brand color tokens + warm neutral palette override + h1/h2/h3
+  get Patrick Hand automatically; body stays sans-serif
+- Primary buttons use the brand orange (#C9892F) instead of neutral-900/white
+- Navbar wordmark renders in Patrick Hand
+- color-scheme + native `<select option>` overrides for legible dropdowns
+- The neutral palette override means existing `dark:bg-neutral-800` etc. across
+  all components automatically warm up; no per-component class edits needed
+
+### Fixes
+
+- `modules/email-resend/env.example`: placeholder now `support@yourdomain.com`
+  (was `noreply@...`) — matches the working pattern from
+  dreamforgeworld.com email setup; documented in module README.
+- Better-Auth `trustedOrigins`: in dev mode, accepts `localhost:3000` through
+  `localhost:3005`. Fixes the "Invalid origin" 403 when running multiple
+  local apps and Next.js falls back to the next available port. Production
+  still requires the exact `BETTER_AUTH_URL`.
+
+### Bumped
+
+- `package.json` version: `0.3.1` → `0.4.0`.
+
+### Still deferred to v0.5.0
+
+- F3 + F6 (lean trunk refactor). See v0.3.1 CHANGELOG for details.
+
 ## v0.3.1 — 2026-05-25
 
 Polish PR addressing friction surfaced by the apptracker smoketest

@@ -12,7 +12,26 @@ its API differs from training-data Next.js in concrete ways:
 - Cache Components: `'use cache'` directive + `cacheLife` / `cacheTag`
 - React 19 APIs (`use()`, Actions, `<form action={fn}>`)
 
-## 3. Working rules
+## 3. Design system (front-end work)
+
+**Read [`docs/design-system.md`](./docs/design-system.md) before any UI change.**
+It defines the brand colors, theme tokens, fonts (Patrick Hand for display
++ Inter for body), warm-neutral palette overrides, component variants,
+and the inspiration source (theblackpot.dreamforgeworld.com).
+
+The short version:
+- **Brand orange**: `#C9892F` (`bg-brand`, `text-brand`)
+- **Fonts**: `font-display` for h1-h3 + brand wordmark; default sans for body
+- **Tailwind's `neutral-*` palette is overridden** to warm browns. `dark:bg-neutral-800` is warm dark brown, not cold grey. Don't assume cold.
+- **Themes**: light (warm cream) and dark (warm dark brown), toggled via `<ThemeToggle>` from `@/components/theme-toggle`
+
+This is the trunk default brand. Forks meant for a different brand family
+should swap the tokens + fonts in one go (`globals.css` + `layout.tsx`) and
+update the doc — don't sprinkle one-off overrides.
+
+When you reach for a one-off color or font, stop and check the doc. If it's not a token, propose adding one.
+
+## 4. Working rules
 - **Plans**: non-trivial work goes through `plans/<NNN>-<slug>.md` first.
   When you complete a checklist item, update the plan in the same turn.
   Don't wait to be asked.
@@ -48,7 +67,7 @@ its API differs from training-data Next.js in concrete ways:
   non-interactive). Reference: apptracker's `0003_swap_notes_for_apps.sql`
   for the format.
 
-## 4. Verification discipline
+## 5. Verification discipline
 Before claiming "done":
 - `npm run typecheck` passes
 - `npm run lint` passes
@@ -57,15 +76,15 @@ Before claiming "done":
 - For UI work: open the page in a browser and use the feature.
   Type-checking is not feature-checking.
 
-## 5. Module installation
+## 6. Module installation
 Modules live in `modules/<name>/`. Each has its own README — follow it
 step-by-step. The onboarding skill at
 `.claude/skills/agenticbuilder-onboarding/` automates this for new clones
 (skill ships when modules ship; see Plan C).
 
-## 6. Vercel
+## 7. Vercel
 The Vercel CLI is expected to be installed and authenticated. Use it freely
 for `vercel env pull`, `vercel deploy`, etc. Never commit `.env.local`.
 
-## 7. Tone
+## 8. Tone
 Terse. Code over prose. No emojis unless asked.

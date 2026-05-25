@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+
 import { useRouter } from "next/navigation";
 import { createNoteAction, updateNoteAction } from "../_actions";
 import { Button } from "@/components/ui/button";
@@ -11,12 +12,62 @@ type Mode =
   | { mode: "create" }
   | { mode: "edit"; noteId: string; initialTitle: string; initialBody: string };
 
+type SaveStatus = "idle" | "saving" | "saved" | "error";
+
+const AUTOSAVE_DELAY_MS = 1500;
+
 export function NoteForm(props: Mode) {
   const router = useRouter();
-  const [title, setTitle] = useState(props.mode === "edit" ? props.initialTitle : "");
-  const [body, setBody] = useState(props.mode === "edit" ? props.initialBody : "");
+  const isEdit = props.mode === "edit";
+  const [title, setTitle] = useState(isEdit ? props.initialTitle : "");
+  const [body, setBody] = useState(isEdit ? props.initialBody : "");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [status, setStatus] = useState<SaveStatus>("idle");
+
+  const [savedTitle, setSavedTitle] = useState(isEdit ? props.initialTitle : "");
+  const [savedBody, setSavedBody] = useState(isEdit ? props.initialBody : "");
+  const inflight = useRef(false);
+
+  async function submitUpdate(nextTitle: string, nextBody: string): Promise<boolean> {
+    if (!isEdit) return false;
+    const fd = new FormData();
+    fd.set("title", nextTitle);
+    fd.set("body", nextBody);
+    const res = await updateNoteAction(props.noteId, fd);
+    if (!res.ok) {
+      setError(res.error);
+      return false;
+    }
+    setSavedTitle(nextTitle);
+    setSavedBody(nextBody);
+    setError(null);
+    return true;
+  }
+
+  const isDirty = isEdit && (title !== savedTitle || body !== savedBody);
+
+  // Autosave on edits — only in edit mode, only after the values diverge from
+  // the last saved snapshot, and only after the user pauses for AUTOSAVE_DELAY_MS.
+  useEffect(() => {
+    if (!isEdit) return;
+    if (pending) return;
+    if (!isDirty) return;
+    if (title.trim().length === 0) return;
+
+    const timer = setTimeout(async () => {
+      if (inflight.current) return;
+      inflight.current = true;
+      setStatus("saving");
+      const ok = await submitUpdate(title, body);
+      inflight.current = false;
+      setStatus(ok ? "saved" : "error");
+      if (ok) router.refresh();
+    }, AUTOSAVE_DELAY_MS);
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, body, isEdit, pending, isDirty]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,7 +79,6 @@ export function NoteForm(props: Mode) {
 
     if (props.mode === "create") {
       const res = await createNoteAction(fd);
-      // createNoteAction redirects on success; if it returns, it failed.
       setPending(false);
       if (res && !res.ok) {
         setError(res.error);
@@ -36,13 +86,14 @@ export function NoteForm(props: Mode) {
       return;
     }
 
-    const res = await updateNoteAction(props.noteId, fd);
+    const ok = await submitUpdate(title, body);
     setPending(false);
-    if (!res.ok) {
-      setError(res.error);
-      return;
+    if (ok) {
+      setStatus("saved");
+      router.refresh();
+    } else {
+      setStatus("error");
     }
-    router.refresh();
   }
 
   return (
@@ -69,11 +120,28 @@ export function NoteForm(props: Mode) {
         />
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
-      <div className="flex gap-2">
+      <div className="flex items-center gap-3">
         <Button type="submit" disabled={pending}>
           {pending ? "Saving…" : props.mode === "create" ? "Create note" : "Save changes"}
         </Button>
+        {isEdit ? <SaveStatusPill status={status} isDirty={isDirty} /> : null}
       </div>
     </form>
   );
+}
+
+function SaveStatusPill({ status, isDirty }: { status: SaveStatus; isDirty: boolean }) {
+  if (status === "saving") {
+    return <span className="text-xs text-neutral-600 dark:text-neutral-400">Saving…</span>;
+  }
+  if (status === "error") {
+    return <span className="text-xs text-red-700 dark:text-red-400">Save failed</span>;
+  }
+  if (isDirty) {
+    return <span className="text-xs text-neutral-600 dark:text-neutral-400">Unsaved changes</span>;
+  }
+  if (status === "saved") {
+    return <span className="text-xs text-green-700 dark:text-green-400">Saved</span>;
+  }
+  return null;
 }

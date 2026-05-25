@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/auth/roles";
 
-export default function HomePage() {
+export default async function HomePage() {
+  if (await getSession()) redirect("/dashboard");
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-8 px-6">
       <div className="space-y-3">
