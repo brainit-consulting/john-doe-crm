@@ -78,9 +78,10 @@ Before claiming "done":
 
 ## 6. Module installation
 Modules live in `modules/<name>/`. Each has its own README — follow it
-step-by-step. The onboarding skill at
-`.claude/skills/agenticbuilder-onboarding/` automates this for new clones
-(skill ships when modules ship; see Plan C).
+step-by-step. The `agenticbuilder-onboarding` skill automates this for
+new clones; install once with
+`npx skills add -g brainit-consulting/agenticbuilder-onboarding`, then
+say "install module <name>" in your agent.
 
 ## 7. Vercel
 The Vercel CLI is expected to be installed and authenticated. Use it freely

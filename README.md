@@ -20,10 +20,18 @@ testing, role gates, admin dashboard.
 
 ## Quick start (Claude Code)
 
-Open this repo in Claude Code. The onboarding skill at
-`.claude/skills/agenticbuilder-onboarding/` auto-loads and walks you
-through renaming, env setup, module selection, and verification. (Skill
-lands in a later release; see `docs/superpowers/specs/`.)
+Install the onboarding skill globally once, then trigger it in any
+agent that supports skills (Claude Code, Cursor, etc.):
+
+```bash
+npx skills add -g brainit-consulting/agenticbuilder-onboarding
+```
+
+Open a fresh terminal in an empty directory and say *"create an
+agenticbuilder app"* — the skill scaffolds the repo from this template,
+renames it, sets up the database and auth secret, lets you pick modules,
+and links Vercel. Already inside an unmodified clone of this repo? Just
+say *"onboard"* and it picks up at the rename step.
 
 ## Two paths through this template
 

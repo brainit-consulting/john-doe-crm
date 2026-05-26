@@ -20,5 +20,4 @@ Why this exists; what problem it addresses.
 
 ## Links
 
-- Spec: `docs/superpowers/specs/…`
-- Plan: `docs/superpowers/plans/…`
+- Plan: `plans/NNN-<slug>.md`
