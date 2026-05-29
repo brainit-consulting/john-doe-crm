@@ -1,6 +1,6 @@
 # Notes — the demo feature
 
-This is the reference feature for AgenticBuilder. Every pattern a new
+This is the reference feature for John Doe CRM. Every pattern a new
 feature would need is exercised here exactly once. New contributors: read
 this folder before adding features of your own.
 

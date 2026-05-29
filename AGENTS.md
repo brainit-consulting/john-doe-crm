@@ -1,4 +1,4 @@
-# AgenticBuilder — Agent Operating Manual
+# John Doe CRM — Agent Operating Manual
 
 ## 1. Project shape
 - Next.js 16 App Router on Vercel. Better-Auth + Drizzle + Neon Postgres.

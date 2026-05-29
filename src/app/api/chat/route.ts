@@ -13,7 +13,7 @@ type ChatRequestBody = {
 };
 
 const SYSTEM_PROMPT =
-  "You are a concise, friendly assistant inside the AgenticBuilder demo app. Keep replies short unless asked to elaborate.";
+  "You are a concise, friendly assistant inside the John Doe CRM demo app. Keep replies short unless asked to elaborate.";
 
 export async function POST(req: Request) {
   await requireSession();

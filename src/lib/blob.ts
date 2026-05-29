@@ -2,11 +2,11 @@ import { put, del } from "@vercel/blob";
 import { env } from "@/lib/env";
 
 // Namespace enforcement is a security boundary: every blob path is prefixed
-// with `agenticbuilder/<userId>/` so files uploaded by one user can never
+// with `john-doe-crm/<userId>/` so files uploaded by one user can never
 // land under another user's prefix, and so we coexist safely with other
 // projects sharing the same Vercel Blob store (do NOT touch paths outside
-// the agenticbuilder/ prefix).
-const ROOT_PREFIX = "agenticbuilder";
+// the john-doe-crm/ prefix).
+const ROOT_PREFIX = "john-doe-crm";
 
 function safeFilename(name: string): string {
   // Strip path separators and any character that's unfriendly in a URL/path.

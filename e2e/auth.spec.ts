@@ -14,7 +14,7 @@ test.describe("auth", () => {
     await page.goto("/");
 
     await expect(
-      page.getByRole("heading", { name: /AgenticBuilder/i }),
+      page.getByRole("heading", { name: /John Doe CRM/i }),
     ).toBeVisible();
 
     await page.getByRole("link", { name: /get started/i }).click();

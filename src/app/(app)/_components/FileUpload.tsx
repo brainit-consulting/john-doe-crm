@@ -102,7 +102,7 @@ export function FileUpload({
       >
         <p className="font-medium">Drop a file or click to upload</p>
         <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-          Files are stored under agenticbuilder/&lt;your-id&gt;/
+          Files are stored under john-doe-crm/&lt;your-id&gt;/
         </p>
         <input
           ref={inputRef}

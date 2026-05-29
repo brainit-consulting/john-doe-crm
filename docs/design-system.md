@@ -1,4 +1,4 @@
-# AgenticBuilder design system
+# John Doe CRM design system
 
 **Last updated:** 2026-05-25
 **Inspiration:** [theblackpot.dreamforgeworld.com](https://theblackpot.dreamforgeworld.com/menu) — the brand family this template ships with.
@@ -68,7 +68,7 @@ Example pattern used downstream (apptracker's `<StatusChip>`):
 
 | Element | Font | Weight | Size class | Notes |
 |---|---|---|---|---|
-| Brand wordmark ("AgenticBuilder") | Patrick Hand | 400 | `text-lg` | `font-display font-semibold` |
+| Brand wordmark ("John Doe CRM") | Patrick Hand | 400 | `text-lg` | `font-display font-semibold` |
 | Page title (h1) | Patrick Hand | 400 | `text-2xl` to `text-4xl` | landing uses 4xl, app pages 2xl |
 | Section heading (h2) | Patrick Hand | 400 | `text-xl` to `text-2xl` | |
 | Sub-heading (h3) | Patrick Hand | 400 | `text-lg` | also card titles |
@@ -107,7 +107,7 @@ Sun/moon icon button wired to `next-themes`. Lives in the navbar between user in
 
 ### Navbar (`src/app/(app)/_components/Navbar.tsx`)
 
-`AgenticBuilder` brand link uses `font-display text-lg font-semibold`. Other nav links are Inter, muted, hover-to-foreground. `<ThemeToggle>` lives between the user name and `<SignOutButton>`.
+`John Doe CRM` brand link uses `font-display text-lg font-semibold`. Other nav links are Inter, muted, hover-to-foreground. `<ThemeToggle>` lives between the user name and `<SignOutButton>`.
 
 ## Spacing + radius
 
@@ -138,7 +138,7 @@ When making a new front-end decision, the test is: "Does this fit alongside The 
 
 ## Forking this brand
 
-If you're using AgenticBuilder for a project that isn't in this brand family, do a clean swap rather than overrides:
+If you're using John Doe CRM for a project that isn't in this brand family, do a clean swap rather than overrides:
 
 1. Replace fonts in `src/app/layout.tsx` (`next/font/google` import + CSS variables).
 2. Replace tokens in `src/app/globals.css` — the `@theme` block (brand colors + neutral palette) and the `.light` / `.dark` blocks (background / foreground / card / border).

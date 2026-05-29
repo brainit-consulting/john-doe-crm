@@ -11,7 +11,7 @@ export interface RenderedEmail {
 
 export function passwordResetEmail({ name, url }: PasswordResetEmailInput): RenderedEmail {
   const safeName = name?.trim() || "there";
-  const subject = "Reset your AgenticBuilder password";
+  const subject = "Reset your John Doe CRM password";
   const text = [
     `Hi ${safeName},`,
     "",
@@ -20,7 +20,7 @@ export function passwordResetEmail({ name, url }: PasswordResetEmailInput): Rend
     "",
     "If you didn't request this, you can safely ignore this message — your password won't change.",
     "",
-    "— The AgenticBuilder team",
+    "— The John Doe CRM team",
   ].join("\n");
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111;line-height:1.5">
@@ -38,7 +38,7 @@ export function passwordResetEmail({ name, url }: PasswordResetEmailInput): Rend
       <p style="color:#666;font-size:13px">
         If you didn't request this, you can safely ignore this message — your password won't change.
       </p>
-      <p style="color:#666">— The AgenticBuilder team</p>
+      <p style="color:#666">— The John Doe CRM team</p>
     </div>
   `.trim();
   return { subject, html, text };

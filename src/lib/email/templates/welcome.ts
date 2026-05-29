@@ -10,19 +10,19 @@ export interface RenderedEmail {
 
 export function welcomeEmail({ name }: WelcomeEmailInput): RenderedEmail {
   const safeName = name?.trim() || "there";
-  const subject = "Welcome to AgenticBuilder";
+  const subject = "Welcome to John Doe CRM";
   const text = [
     `Hi ${safeName},`,
     "",
-    "Welcome to AgenticBuilder. Your account is ready — sign in and start building.",
+    "Welcome to John Doe CRM. Your account is ready — sign in and start building.",
     "",
-    "— The AgenticBuilder team",
+    "— The John Doe CRM team",
   ].join("\n");
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111;line-height:1.5">
       <p>Hi ${escapeHtml(safeName)},</p>
-      <p>Welcome to <strong>AgenticBuilder</strong>. Your account is ready — sign in and start building.</p>
-      <p style="color:#666">— The AgenticBuilder team</p>
+      <p>Welcome to <strong>John Doe CRM</strong>. Your account is ready — sign in and start building.</p>
+      <p style="color:#666">— The John Doe CRM team</p>
     </div>
   `.trim();
   return { subject, html, text };

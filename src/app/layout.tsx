@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AgenticBuilder",
+  title: "John Doe CRM",
   description: "Lean Next.js + Better-Auth + Drizzle quickstart.",
 };
 

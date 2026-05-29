@@ -1,4 +1,4 @@
-# AgenticBuilder
+# John Doe CRM
 
 A lean Next.js 16 + Better-Auth + Drizzle/Neon quickstart for new SaaS apps.
 
