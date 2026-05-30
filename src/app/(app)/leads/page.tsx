@@ -34,14 +34,53 @@ function formatCurrency(value: string | null | undefined): string {
   }).format(n);
 }
 
-export default async function LeadsPage() {
+const VALID_STATUSES: Lead["status"][] = [
+  "new",
+  "contacted",
+  "qualified",
+  "won",
+  "lost",
+];
+
+function parseStatusFilter(raw: string | string[] | undefined): Lead["status"] | null {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (value && (VALID_STATUSES as string[]).includes(value)) {
+    return value as Lead["status"];
+  }
+  return null;
+}
+
+export default async function LeadsPage(props: {
+  searchParams: Promise<{ status?: string | string[] }>;
+}) {
   const session = await requireSession();
-  const leads = await listLeads({ session });
+  // Next 16: searchParams is async — used for the dashboard pipeline drill-down.
+  const { status } = await props.searchParams;
+  const statusFilter = parseStatusFilter(status);
+
+  const allLeads = await listLeads({ session });
+  const leads = statusFilter
+    ? allLeads.filter((lead) => lead.status === statusFilter)
+    : allLeads;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Leads</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-semibold">Leads</h1>
+          {statusFilter ? (
+            <span className="inline-flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1 text-sm text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+              <span className="capitalize">{statusFilter}</span>
+              <Link
+                href="/leads"
+                className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                aria-label="Clear status filter"
+              >
+                &times;
+              </Link>
+            </span>
+          ) : null}
+        </div>
         <Link href="/leads/new">
           <Button>New lead</Button>
         </Link>
@@ -50,12 +89,25 @@ export default async function LeadsPage() {
       {leads.length === 0 ? (
         <Card>
           <div className="space-y-3 text-center">
-            <p className="text-neutral-600 dark:text-neutral-400">
-              No leads yet. Add your first potential customer to start the sales cycle.
-            </p>
-            <Link href="/leads/new">
-              <Button>Add your first lead</Button>
-            </Link>
+            {statusFilter ? (
+              <>
+                <p className="text-neutral-600 dark:text-neutral-400">
+                  No leads with status &ldquo;{statusFilter}&rdquo;.
+                </p>
+                <Link href="/leads">
+                  <Button variant="secondary">View all leads</Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-neutral-600 dark:text-neutral-400">
+                  No leads yet. Add your first potential customer to start the sales cycle.
+                </p>
+                <Link href="/leads/new">
+                  <Button>Add your first lead</Button>
+                </Link>
+              </>
+            )}
           </div>
         </Card>
       ) : (
