@@ -7,6 +7,8 @@ import { createNoteAction, updateNoteAction } from "../_actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useDictation } from "@/lib/dictation";
+import { MicButton } from "@/components/mic-button";
 
 type Mode =
   | { mode: "create" }
@@ -16,7 +18,8 @@ type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 const AUTOSAVE_DELAY_MS = 1500;
 
-export function NoteForm(props: Mode) {
+export function NoteForm(props: Mode & { whisperEnabled: boolean }) {
+  const { whisperEnabled } = props;
   const router = useRouter();
   const isEdit = props.mode === "edit";
   const [title, setTitle] = useState(isEdit ? props.initialTitle : "");
@@ -28,6 +31,13 @@ export function NoteForm(props: Mode) {
   const [savedTitle, setSavedTitle] = useState(isEdit ? props.initialTitle : "");
   const [savedBody, setSavedBody] = useState(isEdit ? props.initialBody : "");
   const inflight = useRef(false);
+
+  const dictation = useDictation({
+    whisperEnabled,
+    onTranscript: (text) => {
+      setBody((prev) => (prev ? prev + " " : "") + text);
+    },
+  });
 
   async function submitUpdate(nextTitle: string, nextBody: string): Promise<boolean> {
     if (!isEdit) return false;
@@ -73,6 +83,7 @@ export function NoteForm(props: Mode) {
     e.preventDefault();
     setError(null);
     setPending(true);
+    dictation.stop();
     const fd = new FormData();
     fd.set("title", title);
     fd.set("body", body);
@@ -124,8 +135,12 @@ export function NoteForm(props: Mode) {
         <Button type="submit" disabled={pending}>
           {pending ? "Saving…" : props.mode === "create" ? "Create note" : "Save changes"}
         </Button>
+        <MicButton dictation={dictation} whisperEnabled={whisperEnabled} />
         {isEdit ? <SaveStatusPill status={status} isDirty={isDirty} /> : null}
       </div>
+      {dictation.error && (
+        <p className="text-xs text-red-600 dark:text-red-400">{dictation.error}</p>
+      )}
     </form>
   );
 }

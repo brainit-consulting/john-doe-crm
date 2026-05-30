@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireSession } from "@/lib/auth/roles";
 import { getNoteForUser } from "@/lib/db/queries";
+import { env } from "@/lib/env";
 import { NoteForm } from "../_components/NoteForm";
 import { DeleteButton } from "../_components/DeleteButton";
 import { Attachments } from "./_components/Attachments";
@@ -17,6 +18,7 @@ export default async function NoteDetailPage({
   if (!note) {
     notFound();
   }
+  const whisperEnabled = Boolean(env.OPENAI_API_KEY);
   return (
     <div className="space-y-6">
       <div>
@@ -36,6 +38,7 @@ export default async function NoteDetailPage({
         noteId={note.id}
         initialTitle={note.title}
         initialBody={note.body}
+        whisperEnabled={whisperEnabled}
       />
       <Attachments noteId={note.id} userId={session.user.id} />
     </div>
