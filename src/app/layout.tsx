@@ -17,9 +17,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "John Doe CRM — lead to paid invoice, in one calm app",
+  title: "John Doe CRM: lead to paid invoice, in one calm app",
   description:
-    "A complete CRM for small business owners and solo entrepreneurs: leads, clients, projects, invoices, and voice dictation. Also a hands-on demonstration of how to build your own — taught at the DreamForge Academy.",
+    "A complete CRM for small business owners and solo entrepreneurs: leads, clients, projects, invoices, and voice dictation. Also a hands-on demonstration of how to build your own, taught at the DreamForge Academy.",
 };
 
 export default function RootLayout({

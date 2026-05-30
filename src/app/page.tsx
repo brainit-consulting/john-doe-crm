@@ -6,7 +6,7 @@ import { getSession } from "@/lib/auth/roles";
 const FEATURES: { title: string; body: string }[] = [
   {
     title: "Lead pipeline",
-    body: "Capture leads — even from a public form — score them, and move them new → contacted → qualified → won, with a “going cold” nudge when one falls quiet.",
+    body: "Capture leads (even from a public form), score them, and move them new → contacted → qualified → won, with a “going cold” nudge when one falls quiet.",
   },
   {
     title: "One-click conversion",
@@ -22,11 +22,11 @@ const FEATURES: { title: string; body: string }[] = [
   },
   {
     title: "Talk, don’t type",
-    body: "Dictate notes anywhere — fast in-browser speech, with accurate server transcription as an automatic backup.",
+    body: "Dictate notes anywhere: fast in-browser speech, with accurate server transcription as an automatic backup.",
   },
   {
     title: "Roles for your team",
-    body: "Owner, sales rep, and read-only viewer roles, so the right people see — and do — the right things.",
+    body: "Owner, sales rep, and read-only viewer roles, so the right people see (and do) the right things.",
   },
 ];
 
@@ -41,17 +41,17 @@ export default async function HomePage() {
           A DreamForge demonstration build
         </p>
         <h1 className="mt-4 text-5xl leading-tight tracking-tight sm:text-6xl">
-          From first lead to paid invoice — in one calm app.
+          From first lead to paid invoice, in one calm app.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-600 dark:text-neutral-300">
           John Doe CRM is a complete, working CRM for small business owners and
           solo entrepreneurs. Capture leads, win them, deliver the work, and get
-          paid — with a pipeline dashboard, full activity history, and voice-note
+          paid, with a pipeline dashboard, full activity history, and voice-note
           dictation, all in one fast, uncluttered place.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
           <Link href="/signup">
-            <Button size="lg">Get started — free</Button>
+            <Button size="lg">Get started for free</Button>
           </Link>
           <Link href="/login">
             <Button size="lg" variant="secondary">
@@ -88,14 +88,14 @@ export default async function HomePage() {
             Curious how it was built?
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-neutral-700 dark:text-neutral-300">
-            John Doe CRM isn’t just a demo you click through — it’s a real,
+            John Doe CRM isn’t just a demo you click through; it’s a real,
             end-to-end reference build: Next.js 16, a typed Postgres database,
             secure authentication, invoicing with PDF export, and AI voice
             dictation. The same production-grade stack you’d use to ship your own
             SaaS.
           </p>
           <p className="mx-auto mt-4 max-w-2xl text-neutral-700 dark:text-neutral-300">
-            We teach exactly how it’s made — piece by piece — at the DreamForge
+            We teach exactly how it’s made, piece by piece, at the DreamForge
             Academy.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4">
@@ -107,11 +107,7 @@ export default async function HomePage() {
               <Button size="lg">Learn at DreamForge Academy →</Button>
             </a>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Prefer to watch? A full build-along series is{" "}
-              <span className="font-medium text-neutral-800 dark:text-neutral-200">
-                coming soon
-              </span>{" "}
-              on YouTube — subscribe to{" "}
+              Prefer to watch? Subscribe to{" "}
               <a
                 href="https://www.youtube.com/@BrainITConsulting"
                 target="_blank"
@@ -120,7 +116,7 @@ export default async function HomePage() {
               >
                 @BrainITConsulting
               </a>{" "}
-              so you don’t miss it.
+              on YouTube for the full build-along series.
             </p>
           </div>
         </div>
@@ -131,7 +127,16 @@ export default async function HomePage() {
         <span className="font-display text-base text-neutral-700 dark:text-neutral-300">
           John Doe CRM
         </span>{" "}
-        — a DreamForge demonstration build.
+        a{" "}
+        <a
+          href="https://dreamforgeworld.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand underline underline-offset-2 hover:text-brand-hover"
+        >
+          DreamForgeWorld
+        </a>{" "}
+        demonstration build.
       </footer>
     </main>
   );
