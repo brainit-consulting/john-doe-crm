@@ -29,9 +29,8 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
     minPasswordLength: 8,
-    // MVP: no email provider configured (spec §8 "optional MFA"); verification off so
-    // email+password sign-up auto-signs-in. Re-enable when Resend is wired up.
-    requireEmailVerification: false,
+    // Resend is wired (EMAIL_FROM + RESEND_API_KEY) -> require email verification on signup.
+    requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
       const { passwordResetEmail } = await import("@/lib/email/templates/password-reset");
       const { sendEmail } = await import("@/lib/email/send");
@@ -40,7 +39,7 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
-    sendOnSignUp: false,
+    sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url }) => {
       const { verifyEmail } = await import("@/lib/email/templates/verify");
       const { sendEmail } = await import("@/lib/email/send");

@@ -159,6 +159,15 @@ export function useDictation({
     onTranscriptRef.current = onTranscript;
   });
 
+  // Read whisperEnabled freshly inside the memoized Web Speech error handler.
+  const whisperEnabledRef = useRef(whisperEnabled);
+  useEffect(() => {
+    whisperEnabledRef.current = whisperEnabled;
+  });
+  // Assigned by a later effect (after startWhisper/selectEngine exist): switches
+  // to the Accurate engine and resumes recording when Web Speech is unreachable.
+  const fallbackToWhisperRef = useRef<() => void>(() => {});
+
   useEffect(() => {
     const supported = getSpeechRecognitionCtor() !== null;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- needs window, only available post-mount
@@ -221,6 +230,13 @@ export function useDictation({
       const code = e?.error;
       if (code && code !== "no-speech" && code !== "aborted") {
         intentRef.current = false;
+        // Auto-fallback: browser speech service unreachable + Whisper available →
+        // switch to Accurate and keep recording instead of erroring out.
+        if (code === "network" && whisperEnabledRef.current) {
+          recognitionRef.current = null;
+          fallbackToWhisperRef.current();
+          return;
+        }
         setError(messageForSpeechError(code));
       }
     };
@@ -353,6 +369,14 @@ export function useDictation({
     setEngine(e);
     writeStoredEngine(e);
   }, []);
+
+  // Wire the Web-Speech→Whisper auto-fallback now that startWhisper + selectEngine exist.
+  useEffect(() => {
+    fallbackToWhisperRef.current = () => {
+      selectEngine("whisper");
+      void startWhisper();
+    };
+  }, [selectEngine, startWhisper]);
 
   return {
     recording,
