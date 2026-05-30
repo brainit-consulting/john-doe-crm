@@ -7,17 +7,25 @@ const envSchema = z.object({
     .min(32, "BETTER_AUTH_SECRET must be at least 32 characters"),
   BETTER_AUTH_URL: z.string().url("BETTER_AUTH_URL must be a valid URL"),
   OWNER_EMAIL: z.string().email("OWNER_EMAIL must be a valid email"),
-  RESEND_API_KEY: z.string().startsWith("re_", "RESEND_API_KEY must start with re_"),
-  EMAIL_FROM: z.string().email("EMAIL_FROM must be a valid email address"),
+  // Optional — these gate the trunk's demo modules (Resend email, AI-gateway chat,
+  // Vercel Blob) that the John Doe CRM spec does not use. Spec wins: not required.
+  // When present, they're still format-validated; when absent, the feature is off.
+  RESEND_API_KEY: z
+    .string()
+    .startsWith("re_", "RESEND_API_KEY must start with re_")
+    .optional(),
+  EMAIL_FROM: z.string().email("EMAIL_FROM must be a valid email address").optional(),
   AI_GATEWAY_API_KEY: z
     .string()
-    .startsWith("vck_", "AI_GATEWAY_API_KEY must start with vck_"),
+    .startsWith("vck_", "AI_GATEWAY_API_KEY must start with vck_")
+    .optional(),
   BLOB_READ_WRITE_TOKEN: z
     .string()
     .startsWith(
       "vercel_blob_rw_",
       "BLOB_READ_WRITE_TOKEN must start with vercel_blob_rw_",
-    ),
+    )
+    .optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;

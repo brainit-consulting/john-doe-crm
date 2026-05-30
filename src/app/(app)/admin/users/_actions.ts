@@ -5,13 +5,14 @@ import { z } from "zod";
 import { requireRole } from "@/lib/auth/roles";
 import { setUserRole } from "@/lib/db/queries";
 
-const roleSchema = z.enum(["user", "admin"]);
+// Owner is set via OWNER_EMAIL bypass and is not assignable through the UI.
+const roleSchema = z.enum(["rep", "viewer"]);
 
 export async function setUserRoleAction(
   userId: string,
   formData: FormData,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
-  await requireRole("admin");
+  await requireRole("owner");
 
   if (typeof userId !== "string" || userId.length === 0) {
     return { ok: false, error: "Invalid userId" };

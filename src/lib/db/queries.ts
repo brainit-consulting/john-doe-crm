@@ -131,9 +131,9 @@ export async function setUserRole(
   userId: string,
   role: Role,
 ): Promise<void> {
-  // Defensive: the type already constrains to "user" | "admin", but refuse
+  // Defensive: the type already constrains to "owner" | "rep" | "viewer", but refuse
   // anything else at runtime in case this is called from untyped JS.
-  if (role !== "user" && role !== "admin") {
+  if (role !== "owner" && role !== "rep" && role !== "viewer") {
     throw new Error(`Invalid role: ${String(role)}`);
   }
   await db

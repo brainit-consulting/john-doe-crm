@@ -22,14 +22,16 @@ export const auth = betterAuth({
   ],
   user: {
     additionalFields: {
-      role: { type: "string", required: false, defaultValue: "user", input: false },
+      role: { type: "string", required: false, defaultValue: "viewer", input: false },
     },
   },
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
     minPasswordLength: 8,
-    requireEmailVerification: true,
+    // MVP: no email provider configured (spec §8 "optional MFA"); verification off so
+    // email+password sign-up auto-signs-in. Re-enable when Resend is wired up.
+    requireEmailVerification: false,
     sendResetPassword: async ({ user, url }) => {
       const { passwordResetEmail } = await import("@/lib/email/templates/password-reset");
       const { sendEmail } = await import("@/lib/email/send");
@@ -38,7 +40,7 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
-    sendOnSignUp: true,
+    sendOnSignUp: false,
     sendVerificationEmail: async ({ user, url }) => {
       const { verifyEmail } = await import("@/lib/email/templates/verify");
       const { sendEmail } = await import("@/lib/email/send");
@@ -55,9 +57,9 @@ export const auth = betterAuth({
       create: {
         before: async (data) => {
           if (data.email === env.OWNER_EMAIL) {
-            return { data: { ...data, role: "admin" } };
+            return { data: { ...data, role: "owner" } };
           }
-          return { data: { ...data, role: "user" } };
+          return { data: { ...data, role: "viewer" } };
         },
       },
     },

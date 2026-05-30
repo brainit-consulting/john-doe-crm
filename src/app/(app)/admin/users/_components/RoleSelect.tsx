@@ -3,21 +3,22 @@
 import { useState, useTransition } from "react";
 import { setUserRoleAction } from "../_actions";
 
-type Role = "user" | "admin";
+// Owner is set via OWNER_EMAIL and cannot be assigned through the UI.
+type AssignableRole = "rep" | "viewer";
 
 export function RoleSelect({
   userId,
   currentRole,
 }: {
   userId: string;
-  currentRole: Role;
+  currentRole: AssignableRole;
 }) {
-  const [role, setRole] = useState<Role>(currentRole);
+  const [role, setRole] = useState<AssignableRole>(currentRole);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   function onChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const next = e.target.value as Role;
+    const next = e.target.value as AssignableRole;
     if (next === role) return;
     const previous = role;
     setRole(next);
@@ -42,8 +43,8 @@ export function RoleSelect({
         aria-label="Change user role"
         className="h-8 rounded-md border border-neutral-200 bg-white px-2 text-sm shadow-sm transition-colors hover:border-neutral-300 disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700"
       >
-        <option value="user">user</option>
-        <option value="admin">admin</option>
+        <option value="rep">rep</option>
+        <option value="viewer">viewer</option>
       </select>
       {pending ? (
         <span

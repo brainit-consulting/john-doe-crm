@@ -62,7 +62,7 @@ export default async function AdminUsersPage({
                   <td className="px-4 py-3">{u.email}</td>
                   <td className="px-4 py-3">{u.name}</td>
                   <td className="px-4 py-3">
-                    <RoleSelect userId={u.id} currentRole={u.role as "user" | "admin"} />
+                    <RoleSelect userId={u.id} currentRole={(u.role === "rep" ? "rep" : "viewer")} />
                   </td>
                   <td className="px-4 py-3">
                     {u.emailVerified ? (

@@ -7,7 +7,7 @@ export default async function AppLayout({
   children: React.ReactNode;
 }) {
   const session = await requireSession();
-  const isAdmin = effectiveRole(session) === "admin";
+  const isAdmin = effectiveRole(session) === "owner";
   return (
     <>
       <Navbar userName={session.user.name} isAdmin={isAdmin} />

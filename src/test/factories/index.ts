@@ -20,7 +20,7 @@ export async function makeUser(
       email: overrides.email ?? `${id}@example.test`,
       emailVerified: overrides.emailVerified ?? true,
       image: overrides.image ?? null,
-      role: overrides.role ?? "user",
+      role: overrides.role ?? "viewer",
       createdAt: overrides.createdAt ?? new Date(),
       updatedAt: overrides.updatedAt ?? new Date(),
     })

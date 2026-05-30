@@ -3,7 +3,16 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth/server";
 import { env } from "@/lib/env";
 
-export type Role = "user" | "admin";
+export type Role = "owner" | "rep" | "viewer";
+
+const RANK: Record<Role, number> = { owner: 3, rep: 2, viewer: 1 };
+
+const VALID_ROLES: Role[] = ["owner", "rep", "viewer"];
+
+function normalizeRole(raw: string | undefined): Role {
+  if (raw && (VALID_ROLES as string[]).includes(raw)) return raw as Role;
+  return "viewer";
+}
 
 export type SessionUser = {
   id: string;
@@ -24,7 +33,7 @@ export async function getSession(): Promise<AppSession | null> {
       id: s.user.id,
       email: s.user.email,
       name: s.user.name,
-      role: ((s.user as { role?: Role }).role ?? "user") as Role,
+      role: normalizeRole((s.user as { role?: string }).role),
     },
   };
 }
@@ -40,14 +49,16 @@ export function isOwner(email: string): boolean {
 }
 
 export function effectiveRole(session: AppSession): Role {
-  if (isOwner(session.user.email)) return "admin";
+  if (isOwner(session.user.email)) return "owner";
   return session.user.role;
 }
 
-export async function requireRole(role: Role): Promise<AppSession> {
+export function hasRole(session: AppSession, min: Role): boolean {
+  return RANK[effectiveRole(session)] >= RANK[min];
+}
+
+export async function requireRole(min: Role): Promise<AppSession> {
   const s = await requireSession();
-  const r = effectiveRole(s);
-  // Admin is a superset of every role; non-admins must match exactly.
-  if (r !== "admin" && r !== role) redirect("/dashboard");
+  if (!hasRole(s, min)) redirect("/dashboard");
   return s;
 }

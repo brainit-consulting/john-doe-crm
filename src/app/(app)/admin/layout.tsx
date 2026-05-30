@@ -7,7 +7,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   // Gate every /admin/* route. requireRole honors OWNER_EMAIL bypass.
-  await requireRole("admin");
+  await requireRole("owner");
   return (
     <div className="space-y-6">
       <nav className="flex items-center gap-4 border-b border-neutral-200 pb-3 text-sm dark:border-neutral-800">
