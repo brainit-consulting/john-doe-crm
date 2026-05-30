@@ -308,3 +308,33 @@ export type Activity = typeof activities.$inferSelect;
 export type NewActivity = typeof activities.$inferInsert;
 export type VoiceNote = typeof voiceNotes.$inferSelect;
 export type NewVoiceNote = typeof voiceNotes.$inferInsert;
+
+// ──────────────────────────────────────────────────────────────────
+// Team invitations — the owner invites a teammate by email + role
+// ──────────────────────────────────────────────────────────────────
+
+export const invitationStatus = pgEnum("invitation_status", ["pending", "accepted", "revoked"]);
+
+export const invitations = pgTable(
+  "invitations",
+  {
+    id: pk(),
+    email: text("email").notNull(),
+    role: text("role").notNull().default("viewer"), // "rep" | "viewer" (owner is set via OWNER_EMAIL)
+    token: text("token")
+      .notNull()
+      .unique()
+      .$defaultFn(() => crypto.randomUUID()),
+    status: invitationStatus("status").notNull().default("pending"),
+    invitedBy: text("invited_by").references(() => user.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    expiresAt: timestamp("expires_at").notNull(),
+    acceptedAt: timestamp("accepted_at"),
+  },
+  (t) => ({
+    byEmailStatus: index("invitations_by_email_status_idx").on(t.email, t.status),
+  }),
+);
+
+export type Invitation = typeof invitations.$inferSelect;
+export type NewInvitation = typeof invitations.$inferInsert;

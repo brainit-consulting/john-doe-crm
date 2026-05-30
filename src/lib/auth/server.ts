@@ -55,8 +55,19 @@ export const auth = betterAuth({
     user: {
       create: {
         before: async (data) => {
+          // Owner bypass wins unconditionally.
           if (data.email === env.OWNER_EMAIL) {
             return { data: { ...data, role: "owner" } };
+          }
+          // If this signup matches a pending, non-expired invitation, grant the
+          // invited role and mark the invitation accepted. Otherwise default to viewer.
+          const { getPendingInvitationByEmail, acceptInvitationByEmail } = await import(
+            "@/lib/db/queries/invitations"
+          );
+          const invite = await getPendingInvitationByEmail(data.email);
+          if (invite) {
+            await acceptInvitationByEmail(data.email);
+            return { data: { ...data, role: invite.role } };
           }
           return { data: { ...data, role: "viewer" } };
         },
