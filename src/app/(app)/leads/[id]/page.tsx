@@ -7,6 +7,7 @@ import { StatusControl } from "../_components/StatusControl";
 import { ScoreControl } from "../_components/ScoreControl";
 import { LeadForm } from "../_components/LeadForm";
 import { ConvertToClientButton } from "../_components/ConvertToClientButton";
+import { ActivityLog } from "@/components/activity/ActivityLog";
 
 function formatCurrency(value: string | null | undefined): string {
   if (!value) return "—";
@@ -169,15 +170,13 @@ export default async function LeadDetailPage({
         </Card>
       )}
 
-      {/* Activity log placeholder */}
+      {/* Activity log */}
       <Card>
         <CardHeader>
           <CardTitle>Activity log</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Activity log — coming in a later task.
-          </p>
+          <ActivityLog subjectType="lead" subjectId={lead.id} />
         </CardContent>
       </Card>
     </div>

@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ProjectStatusControl } from "../_components/ProjectStatusControl";
 import { ProjectEditForm } from "../_components/ProjectEditForm";
 import { NewInvoiceButton } from "../../invoices/_components/NewInvoiceButton";
+import { ActivityLog } from "@/components/activity/ActivityLog";
 import type { Invoice } from "@/lib/db/schema";
 
 const INVOICE_STATUS_COLORS: Record<Invoice["status"], string> = {
@@ -214,6 +215,16 @@ export default async function ProjectDetailPage({
             </div>
           )}
           <NewInvoiceButton clientId={project.clientId} projectId={project.id} />
+        </CardContent>
+      </Card>
+
+      {/* Activity log */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Activity log</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ActivityLog subjectType="project" subjectId={project.id} />
         </CardContent>
       </Card>
     </div>
