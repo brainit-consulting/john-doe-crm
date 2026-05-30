@@ -1,6 +1,6 @@
 # John Doe CRM design system
 
-**Last updated:** 2026-05-25
+**Last updated:** 2026-05-30
 **Inspiration:** [theblackpot.dreamforgeworld.com](https://theblackpot.dreamforgeworld.com/menu) — the brand family this template ships with.
 
 This is the trunk's default brand. When your fork is meant for a different identity, swap the tokens + fonts in one go (`globals.css` + `layout.tsx`) and rewrite this doc to match. Don't sprinkle one-off overrides — if it's not a token, propose adding one.
@@ -69,7 +69,7 @@ Example pattern used downstream (apptracker's `<StatusChip>`):
 | Element | Font | Weight | Size class | Notes |
 |---|---|---|---|---|
 | Brand wordmark ("John Doe CRM") | Patrick Hand | 400 | `text-lg` | `font-display font-semibold` |
-| Page title (h1) | Patrick Hand | 400 | `text-2xl` to `text-4xl` | landing uses 4xl, app pages 2xl |
+| Page title (h1) | Patrick Hand | 400 | `text-2xl` to `text-6xl` | landing hero uses 5xl–6xl; app pages 2xl |
 | Section heading (h2) | Patrick Hand | 400 | `text-xl` to `text-2xl` | |
 | Sub-heading (h3) | Patrick Hand | 400 | `text-lg` | also card titles |
 | Body | Inter | 400 | `text-sm` to `text-base` | |
@@ -108,6 +108,21 @@ Sun/moon icon button wired to `next-themes`. Lives in the navbar between user in
 ### Navbar (`src/app/(app)/_components/Navbar.tsx`)
 
 `John Doe CRM` brand link uses `font-display text-lg font-semibold`. Other nav links are Inter, muted, hover-to-foreground. `<ThemeToggle>` lives between the user name and `<SignOutButton>`.
+
+## Marketing landing page
+
+The public landing (`src/app/page.tsx`) is the one marketing surface — everything else is product UI behind login. Its patterns, reusable for any marketing page:
+
+- **Eyebrow** — small uppercase label above the headline: `text-sm font-medium uppercase tracking-[0.15em] text-brand`.
+- **Hero headline** — the largest display type in the app: `text-5xl sm:text-6xl` (Patrick Hand via the global `h1` selector), `leading-tight tracking-tight`, centered in a `max-w-3xl` column.
+- **Lead paragraph** — `text-lg text-neutral-600 dark:text-neutral-300`, capped at `max-w-2xl`.
+- **CTA pair** — primary `<Button size="lg">` + secondary `<Button size="lg" variant="secondary">`.
+- **Feature grid** — `grid sm:grid-cols-2 lg:grid-cols-3 gap-4`; each card is `rounded-xl border border-neutral-200 bg-neutral-50 p-5` (dark: `border-neutral-800 bg-neutral-900`) with a `text-xl text-brand` `<h3>` title + a `text-sm text-neutral-600` body.
+- **CTA band** — a centered callout: `rounded-2xl border border-neutral-200 bg-neutral-100 p-8 sm:p-12` (dark: `border-neutral-800 bg-neutral-900`), heading + copy + a `<Button size="lg">`.
+- **External links** — always `target="_blank" rel="noopener noreferrer"`, styled `text-brand underline underline-offset-2 hover:text-brand-hover`. (The DreamForge Academy CTA + the @BrainITConsulting YouTube link live here.)
+- **Footer** — `border-t border-neutral-200`, muted, with the `font-display` wordmark.
+
+Keep landing copy aimed at **small business owners and solo entrepreneurs**. The app's dual reason-for-being is "a CRM you can use" **and** "a reference build you can learn from at the DreamForge Academy."
 
 ## Spacing + radius
 
