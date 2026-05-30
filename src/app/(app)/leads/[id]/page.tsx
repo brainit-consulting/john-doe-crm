@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { StatusControl } from "../_components/StatusControl";
 import { ScoreControl } from "../_components/ScoreControl";
 import { LeadForm } from "../_components/LeadForm";
+import { ConvertToClientButton } from "../_components/ConvertToClientButton";
 
 function formatCurrency(value: string | null | undefined): string {
   if (!value) return "—";
@@ -145,14 +146,37 @@ export default async function LeadDetailPage({
         </CardContent>
       </Card>
 
-      {/* Placeholder for future tasks */}
+      {/* Convert to client */}
+      {(lead.status === "qualified" || lead.status === "won") && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Convert to client</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {lead.status === "won" ? (
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                This lead has already been converted.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                  Mark this lead as won and create a client record.
+                </p>
+                <ConvertToClientButton leadId={lead.id} />
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Activity log placeholder */}
       <Card>
         <CardHeader>
-          <CardTitle>Activity log &amp; Convert to client</CardTitle>
+          <CardTitle>Activity log</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Activity log &amp; Convert to client — coming in a later task.
+            Activity log — coming in a later task.
           </p>
         </CardContent>
       </Card>

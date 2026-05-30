@@ -3,13 +3,17 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireRole } from "@/lib/auth/roles";
+import { requireRole, effectiveRole } from "@/lib/auth/roles";
 import {
   createLead,
+  getLead,
   updateLead,
   setLeadStatus,
   setLeadScore,
 } from "@/lib/db/queries/leads";
+import { createClient } from "@/lib/db/queries/clients";
+import { db } from "@/lib/db/client";
+import { activities } from "@/lib/db/schema";
 import type { Lead } from "@/lib/db/schema";
 
 export type LeadActionResult =
@@ -140,4 +144,49 @@ export async function setLeadScoreAction(
   revalidatePath("/leads");
   revalidatePath(`/leads/${leadId}`);
   return { ok: true };
+}
+
+export async function convertToClientAction(
+  leadId: string,
+): Promise<LeadActionResult> {
+  const session = await requireRole("rep");
+  const role = effectiveRole(session);
+
+  const lead = await getLead(leadId);
+  if (!lead) {
+    return { ok: false, error: "Lead not found." };
+  }
+
+  // Non-owners can only convert their own leads
+  if (role !== "owner" && lead.ownerId !== session.user.id) {
+    return { ok: false, error: "Not authorized." };
+  }
+
+  // Create the client record (leadId links back to origin lead)
+  const client = await createClient({
+    leadId: lead.id,
+    name: lead.name,
+    company: lead.company ?? null,
+    billingEmail: lead.email ?? null,
+    address: null,
+    ownerId: session.user.id,
+  });
+
+  // Mark the lead as won
+  await setLeadStatus(lead.id, "won");
+
+  // Record a stage_change activity on the new client
+  await db.insert(activities).values({
+    subjectType: "client",
+    subjectId: client.id,
+    kind: "stage_change",
+    body: "Converted from lead",
+    createdBy: session.user.id,
+  });
+
+  revalidatePath("/leads");
+  revalidatePath(`/leads/${leadId}`);
+  revalidatePath("/clients");
+
+  redirect(`/clients/${client.id}`);
 }
