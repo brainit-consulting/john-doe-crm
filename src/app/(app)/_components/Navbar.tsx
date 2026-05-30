@@ -14,6 +14,7 @@ export function Navbar({
       <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-3">
         <nav className="flex items-center gap-4 text-sm">
           <Link href="/dashboard" className="font-display text-lg font-semibold">John Doe CRM</Link>
+          <Link href="/leads" className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">Leads</Link>
           <Link href="/notes" className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">Notes</Link>
           <Link href="/chat" className="text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">Chat</Link>
           {isAdmin ? (
