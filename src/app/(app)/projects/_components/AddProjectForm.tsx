@@ -144,7 +144,7 @@ export function AddProjectForm({ clientId }: Props) {
         </Button>
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           onClick={() => {
             setOpen(false);
             setError(null);

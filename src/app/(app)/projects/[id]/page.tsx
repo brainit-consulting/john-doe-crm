@@ -3,9 +3,26 @@ import { notFound } from "next/navigation";
 import { requireSession } from "@/lib/auth/roles";
 import { getProject } from "@/lib/db/queries/projects";
 import { getClient } from "@/lib/db/queries/clients";
+import { listInvoicesByProject } from "@/lib/db/queries/invoices";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ProjectStatusControl } from "../_components/ProjectStatusControl";
 import { ProjectEditForm } from "../_components/ProjectEditForm";
+import { NewInvoiceButton } from "../../invoices/_components/NewInvoiceButton";
+import type { Invoice } from "@/lib/db/schema";
+
+const INVOICE_STATUS_COLORS: Record<Invoice["status"], string> = {
+  draft: "bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300",
+  sent: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+  paid: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
+  overdue: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
+};
+
+const INVOICE_STATUS_LABELS: Record<Invoice["status"], string> = {
+  draft: "Draft",
+  sent: "Sent",
+  paid: "Paid",
+  overdue: "Overdue",
+};
 
 function formatCurrency(value: string | null | undefined): string {
   if (!value) return "—";
@@ -46,6 +63,8 @@ export default async function ProjectDetailPage({
 
   const client = await getClient(project.clientId);
   if (!client) notFound();
+
+  const invoices = await listInvoicesByProject(id);
 
   return (
     <div className="space-y-6">
@@ -135,15 +154,66 @@ export default async function ProjectDetailPage({
         </CardContent>
       </Card>
 
-      {/* Invoices placeholder */}
+      {/* Invoices */}
       <Card>
         <CardHeader>
           <CardTitle>Invoices</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Invoices — coming in a later task.
-          </p>
+          {invoices.length === 0 ? (
+            <p className="mb-4 text-sm text-neutral-500 dark:text-neutral-400">
+              No invoices yet.
+            </p>
+          ) : (
+            <div className="mb-4 overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-800">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900">
+                    <th className="px-4 py-3 text-left font-medium text-neutral-600 dark:text-neutral-400">
+                      Invoice #
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-neutral-600 dark:text-neutral-400">
+                      Status
+                    </th>
+                    <th className="px-4 py-3 text-right font-medium text-neutral-600 dark:text-neutral-400">
+                      Total
+                    </th>
+                    <th className="px-4 py-3 text-left font-medium text-neutral-600 dark:text-neutral-400">
+                      Due
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
+                  {invoices.map((invoice) => (
+                    <tr key={invoice.id} className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
+                      <td className="px-4 py-3">
+                        <Link
+                          href={`/invoices/${invoice.id}`}
+                          className="font-medium hover:underline"
+                        >
+                          {invoice.invoiceNumber}
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${INVOICE_STATUS_COLORS[invoice.status]}`}
+                        >
+                          {INVOICE_STATUS_LABELS[invoice.status]}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right tabular-nums">
+                        {formatCurrency(invoice.total)}
+                      </td>
+                      <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
+                        {invoice.dueDate ?? "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <NewInvoiceButton clientId={project.clientId} projectId={project.id} />
         </CardContent>
       </Card>
     </div>
