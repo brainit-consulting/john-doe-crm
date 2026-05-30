@@ -24,9 +24,9 @@ function StatusBadge({ status }: { status: Lead["status"] }) {
 }
 
 function formatCurrency(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const n = parseFloat(value);
-  if (isNaN(n)) return "—";
+  if (isNaN(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -152,7 +152,7 @@ export default async function LeadsPage(props: {
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
-                      {lead.company ?? "—"}
+                      {lead.company ?? "-"}
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge status={lead.status} />
@@ -172,7 +172,7 @@ export default async function LeadsPage(props: {
                           Going cold
                         </span>
                       ) : (
-                        <span className="text-neutral-400 dark:text-neutral-600">—</span>
+                        <span className="text-neutral-400 dark:text-neutral-600">-</span>
                       )}
                     </td>
                   </tr>

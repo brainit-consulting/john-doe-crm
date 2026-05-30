@@ -37,7 +37,7 @@ function formatCurrency(value: string | null | undefined): string {
 }
 
 function formatDate(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const [year, month, day] = value.split("-").map(Number);
   const d = new Date(year, month - 1, day);
   return d.toLocaleDateString();
@@ -221,7 +221,7 @@ export default async function InvoiceDetailPage({
               Pay online
             </p>
             <p className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">
-              Online card payments are not available yet — coming post-MVP (spec §8).
+              Online card payments are not available yet. Coming post-MVP (spec §8).
             </p>
             <button
               type="button"

@@ -10,9 +10,9 @@ import { ConvertToClientButton } from "../_components/ConvertToClientButton";
 import { ActivityLog } from "@/components/activity/ActivityLog";
 
 function formatCurrency(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const n = parseFloat(value);
-  if (isNaN(n)) return "—";
+  if (isNaN(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -98,13 +98,13 @@ export default async function LeadDetailPage({
                     {lead.email}
                   </a>
                 ) : (
-                  "—"
+                  "-"
                 )}
               </dd>
             </div>
             <div>
               <dt className="text-neutral-500 dark:text-neutral-400">Phone</dt>
-              <dd className="mt-0.5 font-medium">{lead.phone ?? "—"}</dd>
+              <dd className="mt-0.5 font-medium">{lead.phone ?? "-"}</dd>
             </div>
             <div>
               <dt className="text-neutral-500 dark:text-neutral-400">Source</dt>

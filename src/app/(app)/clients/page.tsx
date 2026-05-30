@@ -61,10 +61,10 @@ export default async function ClientsPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
-                    {client.company ?? "—"}
+                    {client.company ?? "-"}
                   </td>
                   <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
-                    {client.billingEmail ?? "—"}
+                    {client.billingEmail ?? "-"}
                   </td>
                   <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
                     {client.createdAt.toLocaleDateString()}

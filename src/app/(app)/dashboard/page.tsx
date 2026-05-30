@@ -21,7 +21,7 @@ function formatCurrency(n: number): string {
 }
 
 function formatDate(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const [year, month, day] = value.split("-").map(Number);
   return new Date(year, month - 1, day).toLocaleDateString();
 }

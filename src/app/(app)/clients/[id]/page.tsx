@@ -40,9 +40,9 @@ const PROJECT_STATUS_COLORS: Record<string, string> = {
 };
 
 function formatCurrency(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const n = parseFloat(value);
-  if (isNaN(n)) return "—";
+  if (isNaN(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -91,13 +91,13 @@ export default async function ClientDetailPage({
                     {client.billingEmail}
                   </a>
                 ) : (
-                  "—"
+                  "-"
                 )}
               </dd>
             </div>
             <div>
               <dt className="text-neutral-500 dark:text-neutral-400">Address</dt>
-              <dd className="mt-0.5 font-medium">{client.address ?? "—"}</dd>
+              <dd className="mt-0.5 font-medium">{client.address ?? "-"}</dd>
             </div>
             <div>
               <dt className="text-neutral-500 dark:text-neutral-400">Created</dt>
@@ -177,7 +177,7 @@ export default async function ClientDetailPage({
                         </span>
                       </td>
                       <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
-                        {project.dueDate ?? "—"}
+                        {project.dueDate ?? "-"}
                       </td>
                       <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
                         {formatCurrency(project.fee)}
@@ -243,7 +243,7 @@ export default async function ClientDetailPage({
                         {formatCurrency(invoice.total)}
                       </td>
                       <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
-                        {invoice.dueDate ?? "—"}
+                        {invoice.dueDate ?? "-"}
                       </td>
                     </tr>
                   ))}

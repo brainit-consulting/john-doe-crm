@@ -18,9 +18,9 @@ const STATUS_LABELS: Record<Invoice["status"], string> = {
 };
 
 function formatCurrency(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const n = parseFloat(value);
-  if (isNaN(n)) return "—";
+  if (isNaN(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -29,7 +29,7 @@ function formatCurrency(value: string | null | undefined): string {
 }
 
 function formatDate(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const [year, month, day] = value.split("-").map(Number);
   const d = new Date(year, month - 1, day);
   return d.toLocaleDateString();

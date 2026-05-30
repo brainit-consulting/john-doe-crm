@@ -26,9 +26,9 @@ const INVOICE_STATUS_LABELS: Record<Invoice["status"], string> = {
 };
 
 function formatCurrency(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const n = parseFloat(value);
-  if (isNaN(n)) return "—";
+  if (isNaN(n)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -37,7 +37,7 @@ function formatCurrency(value: string | null | undefined): string {
 }
 
 function formatDate(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   // date columns come back as "YYYY-MM-DD" strings from Drizzle's date type
   const [year, month, day] = value.split("-").map(Number);
   const d = new Date(year, month - 1, day);
@@ -206,7 +206,7 @@ export default async function ProjectDetailPage({
                         {formatCurrency(invoice.total)}
                       </td>
                       <td className="px-4 py-3 text-neutral-600 dark:text-neutral-400">
-                        {invoice.dueDate ?? "—"}
+                        {invoice.dueDate ?? "-"}
                       </td>
                     </tr>
                   ))}

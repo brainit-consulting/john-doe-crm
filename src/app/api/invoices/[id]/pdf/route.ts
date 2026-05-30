@@ -16,7 +16,7 @@ function formatCurrency(value: string | null | undefined): string {
 }
 
 function formatDate(value: string | null | undefined): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const [year, month, day] = value.split("-").map(Number);
   const d = new Date(year, month - 1, day);
   return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
