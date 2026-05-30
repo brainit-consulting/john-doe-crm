@@ -26,6 +26,9 @@ const envSchema = z.object({
       "BLOB_READ_WRITE_TOKEN must start with vercel_blob_rw_",
     )
     .optional(),
+  // Optional — gates the Whisper server-transcription path in T6 dictation.
+  // When absent the feature gracefully falls back to Web Speech (browser).
+  OPENAI_API_KEY: z.string().optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;

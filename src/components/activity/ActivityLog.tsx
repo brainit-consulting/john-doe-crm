@@ -1,5 +1,6 @@
 import { listActivities } from "@/lib/db/queries/activities";
 import type { Activity } from "@/lib/db/schema";
+import { env } from "@/lib/env";
 import { LogActivityForm } from "./LogActivityForm";
 
 const KIND_LABELS: Record<Activity["kind"], string> = {
@@ -38,10 +39,15 @@ export async function ActivityLog({
   subjectId: string;
 }) {
   const entries = await listActivities(subjectType, subjectId);
+  const whisperEnabled = Boolean(env.OPENAI_API_KEY);
 
   return (
     <div className="space-y-5">
-      <LogActivityForm subjectType={subjectType} subjectId={subjectId} />
+      <LogActivityForm
+        subjectType={subjectType}
+        subjectId={subjectId}
+        whisperEnabled={whisperEnabled}
+      />
 
       {entries.length === 0 ? (
         <p className="text-sm text-neutral-500 dark:text-neutral-400">

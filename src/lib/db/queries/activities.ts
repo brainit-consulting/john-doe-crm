@@ -73,6 +73,10 @@ export type CreateActivityInput = {
   kind: ActivityKind;
   body: string;
   createdBy: string;
+  // Optional — when the body came (at least partly) from dictation, supply the
+  // raw transcript so a voice_notes row is recorded alongside the activity.
+  // The ActivityLog already renders these transcripts when present (T6).
+  voiceTranscript?: string;
 };
 
 export async function createActivity(
@@ -95,6 +99,16 @@ export async function createActivity(
       .update(leads)
       .set({ lastActivityAt: new Date() })
       .where(eq(leads.id, input.subjectId));
+  }
+
+  // If the body came from dictation, persist the raw transcript so it appears
+  // in the activity log's voice-note section.
+  if (input.voiceTranscript && input.voiceTranscript.trim()) {
+    await db.insert(voiceNotes).values({
+      activityId: row.id,
+      transcript: input.voiceTranscript.trim(),
+      createdBy: input.createdBy,
+    });
   }
 
   return row;

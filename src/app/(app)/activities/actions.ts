@@ -17,6 +17,9 @@ const logActivitySchema = z.object({
   subjectId: z.string().trim().min(1, "Missing subject"),
   kind: z.enum(["call", "email", "meeting", "note"]),
   body: z.string().trim().min(1, "Add a note").max(5000),
+  // Optional — the raw dictated transcript from T6 voice-note dictation.
+  // When present, a voice_notes row is also inserted (see createActivity).
+  voiceTranscript: z.string().trim().max(5000).optional(),
 });
 
 const DETAIL_PATH: Record<Activity["subjectType"], string> = {
@@ -35,13 +38,14 @@ export async function logActivity(
     subjectId: formData.get("subjectId"),
     kind: formData.get("kind"),
     body: formData.get("body"),
+    voiceTranscript: formData.get("voiceTranscript") ?? undefined,
   });
 
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const { subjectType, subjectId, kind, body } = parsed.data;
+  const { subjectType, subjectId, kind, body, voiceTranscript } = parsed.data;
 
   await createActivity({
     subjectType,
@@ -49,6 +53,7 @@ export async function logActivity(
     kind,
     body,
     createdBy: session.user.id,
+    voiceTranscript,
   });
 
   // Revalidate the subject's detail page so the new entry (and, for leads, the
