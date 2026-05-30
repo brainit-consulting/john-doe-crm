@@ -21,7 +21,7 @@ export function inviteEmail({ role, url, inviterName }: InviteEmailInput): Rende
     "",
     "This invitation expires in 7 days.",
     "",
-    "— The John Doe CRM team",
+    "The John Doe CRM team",
   ].join("\n");
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111;line-height:1.5">
@@ -37,7 +37,7 @@ export function inviteEmail({ role, url, inviterName }: InviteEmailInput): Rende
         <a href="${escapeAttr(url)}" style="color:#666">${escapeHtml(url)}</a>
       </p>
       <p style="color:#666;font-size:13px">This invitation expires in 7 days.</p>
-      <p style="color:#666">— The John Doe CRM team</p>
+      <p style="color:#666">The John Doe CRM team</p>
     </div>
   `.trim();
   return { subject, html, text };

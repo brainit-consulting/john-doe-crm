@@ -31,7 +31,7 @@ export default function LeadCapturePage() {
           John Doe CRM
         </h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-8">
-          Get in touch — we&apos;ll be back to you shortly.
+          Get in touch. We&apos;ll be back to you shortly.
         </p>
 
         {done ? (

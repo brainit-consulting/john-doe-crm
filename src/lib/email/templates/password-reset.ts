@@ -18,9 +18,9 @@ export function passwordResetEmail({ name, url }: PasswordResetEmailInput): Rend
     "Click the link below to set a new password. The link expires in 1 hour.",
     url,
     "",
-    "If you didn't request this, you can safely ignore this message — your password won't change.",
+    "If you didn't request this, you can safely ignore this message. Your password won't change.",
     "",
-    "— The John Doe CRM team",
+    "The John Doe CRM team",
   ].join("\n");
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111;line-height:1.5">
@@ -36,9 +36,9 @@ export function passwordResetEmail({ name, url }: PasswordResetEmailInput): Rend
         <a href="${escapeAttr(url)}" style="color:#666">${escapeHtml(url)}</a>
       </p>
       <p style="color:#666;font-size:13px">
-        If you didn't request this, you can safely ignore this message — your password won't change.
+        If you didn't request this, you can safely ignore this message. Your password won't change.
       </p>
-      <p style="color:#666">— The John Doe CRM team</p>
+      <p style="color:#666">The John Doe CRM team</p>
     </div>
   `.trim();
   return { subject, html, text };

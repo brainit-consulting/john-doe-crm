@@ -20,7 +20,7 @@ export function verifyEmail({ name, url }: VerifyEmailInput): RenderedEmail {
     "",
     "If you didn't sign up, you can safely ignore this message.",
     "",
-    "— The John Doe CRM team",
+    "The John Doe CRM team",
   ].join("\n");
   const html = `
     <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#111;line-height:1.5">
@@ -36,7 +36,7 @@ export function verifyEmail({ name, url }: VerifyEmailInput): RenderedEmail {
         <a href="${escapeAttr(url)}" style="color:#666">${escapeHtml(url)}</a>
       </p>
       <p style="color:#666;font-size:13px">If you didn't sign up, you can safely ignore this message.</p>
-      <p style="color:#666">— The John Doe CRM team</p>
+      <p style="color:#666">The John Doe CRM team</p>
     </div>
   `.trim();
   return { subject, html, text };

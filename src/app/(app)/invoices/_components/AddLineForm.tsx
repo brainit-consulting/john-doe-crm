@@ -66,7 +66,7 @@ export function AddLineForm({ invoiceId }: Props) {
           required
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="e.g. Web design — homepage"
+          placeholder="e.g. Web design: homepage"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">

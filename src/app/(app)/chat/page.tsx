@@ -11,7 +11,7 @@ export default async function ChatPage() {
         <h1 className="text-2xl font-semibold">Chat</h1>
         <p className="text-neutral-600 dark:text-neutral-400">
           Talk to a frontier model through the Vercel AI Gateway. Switch
-          provider with the picker — your next message uses the new model.
+          provider with the picker. Your next message uses the new model.
         </p>
       </div>
       <ChatUI defaultModelId={DEFAULT_MODEL_ID} models={[...MODELS]} />

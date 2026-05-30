@@ -124,7 +124,7 @@ export default async function DashboardPage() {
           Good morning, {session.user.name}.
         </h1>
         <p className="text-neutral-600 dark:text-neutral-400">
-          Here&apos;s your pipeline, active work, and money — all in one place.
+          Here&apos;s your pipeline, active work, and money, all in one place.
         </p>
       </div>
 

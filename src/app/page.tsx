@@ -38,7 +38,7 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="mx-auto max-w-3xl px-6 pt-24 pb-16 text-center sm:pt-32">
         <p className="text-sm font-medium uppercase tracking-[0.15em] text-brand">
-          A DreamForge demonstration build
+          A DreamForgeWorld demonstration build
         </p>
         <h1 className="mt-4 text-5xl leading-tight tracking-tight sm:text-6xl">
           From first lead to paid invoice, in one calm app.

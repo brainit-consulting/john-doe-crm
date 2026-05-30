@@ -9,7 +9,7 @@ export function NoteList({ notes }: { notes: Note[] }) {
       <Card>
         <div className="space-y-3 text-center">
           <p className="text-neutral-600 dark:text-neutral-400">
-            No notes yet. Notes are the demo feature — write one to see the full
+            No notes yet. Notes are the demo feature. Write one to see the full
             create / edit / delete loop in action.
           </p>
           <Link href="/notes/new">
