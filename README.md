@@ -33,6 +33,34 @@ renames it, sets up the database and auth secret, lets you pick modules,
 and links Vercel. Already inside an unmodified clone of this repo? Just
 say *"onboard"* and it picks up at the rename step.
 
+## Course skills — the "forge family"
+
+If you're following the **Building The John Doe CRM** course, the four
+skills it drives are bundled in this repo under [`skills/`](./skills):
+
+- **app-forge** — turns a spec (+ diagrams) into a runnable app. This is
+  the one you invoke to build the CRM; it orchestrates the others.
+- **agenticbuilder-onboarding** — scaffolds the starter Next.js project
+  (the "trunk") that app-forge builds on top of.
+- **diagram-forge** — turns a spec into architecture diagrams and a clean
+  HTML version of the spec.
+- **code-spec-forge** — the reverse trip: points at an app you already
+  have and writes its technical spec.
+
+Copy them into your personal skills directory so the agent can load them
+on demand:
+
+```bash
+# Windows (PowerShell)
+Copy-Item -Recurse skills\* "$env:USERPROFILE\.claude\skills\"
+
+# macOS / Linux
+cp -R skills/* ~/.claude/skills/
+```
+
+Then `app-forge`, `agenticbuilder-onboarding`, `diagram-forge`, and
+`code-spec-forge` are available to invoke in plain English.
+
 ## Two paths through this template
 
 This template can be used two ways. Pick what matches your project.
